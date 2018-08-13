@@ -26,10 +26,12 @@ limitations under the License.
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" style="display: none;">Authorize</button>
     <button id="signout_button" style="display: none;">Sign Out</button>
+    <button id="button_new_file" onclick="newFile()">New file</button>
 
     <pre id="content"></pre>
 
     <script src="index.js"></script>
+    <script src="files.js"></script>
 
     <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
