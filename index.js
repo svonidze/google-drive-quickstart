@@ -111,6 +111,14 @@ function newFile() {
     newDriveFile(
         'data.json',
         'application/json',
-        btoa('{Hello}')
+        btoa('{Hello again}')
     );
+}
+
+function updateFile() {
+    updateDriveFile(
+        '1mxLtBcC-75Rivdeqrt0WcEWpr50FHiGB',
+        'application/json',
+        btoa('{Updated one more time!}')
+    )
 }

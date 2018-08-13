@@ -1,3 +1,6 @@
+const boundary = '-------314159265358979323846';
+const delimiter = "\r\n--" + boundary + "\r\n";
+const close_delim = "\r\n--" + boundary + "--";
 
 /**
  * Insert new file.
@@ -17,10 +20,6 @@ function insertFile(fileData, callback) {
 }
 
 function newDriveFile(fileName, contentType, base64Data, callback = null) {
-    const boundary = '-------314159265358979323846';
-    const delimiter = "\r\n--" + boundary + "\r\n";
-    const close_delim = "\r\n--" + boundary + "--";
-
     contentType = contentType || 'application/octet-stream';
     var metadata = {
         'title': fileName,
@@ -47,10 +46,47 @@ function newDriveFile(fileName, contentType, base64Data, callback = null) {
         },
         'body': multipartRequestBody
     });
-    if (!callback) {
-        callback = function (file) {
-            console.log(file)
-        };
+
+    request.execute(callback || responseCallback);
+}
+
+function updateDriveFile(fileId, contentType, base64Data, callback = null) {
+    if(!fileId){
+        throw 'Missed fileId';
     }
-    request.execute(callback);
+
+    contentType = contentType || 'application/octet-stream';
+
+    var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        // JSON.stringify({}) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n' +        
+        'Content-Transfer-Encoding: base64\r\n' +
+        '\r\n' +
+        base64Data +
+        close_delim;
+
+    var request = gapi.client.request({
+        'path': `/upload/drive/v2/files/${fileId}`,
+        'method': 'PUT',
+        'params': { 'uploadType': 'multipart', 'alt': 'json' },
+        'headers': {
+            'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+        },
+        'body': multipartRequestBody
+    });
+
+    request.execute(callback || responseCallback);
+}
+
+function responseCallback(file) {
+    if (!file || file.error) {
+        alert('File could not be created, see console log');
+        console.log(file)
+    }
+    else {
+        alert(`File ${file.title} created. Link ${file.selfLink}.`);
+    }
 }
