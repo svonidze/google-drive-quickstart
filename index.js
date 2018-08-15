@@ -17,6 +17,8 @@ var SCOPES = [
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
+var fileIdTextBox = document.getElementById('textbox_file_id');
+var contentTextBox = document.getElementById('textbox_content');
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -92,8 +94,6 @@ function listFiles() {
         'pageSize': 50,
         'fields': "nextPageToken, files(id, name)"
     }).then(function (response) {
-        console.log(response);
-
         appendPre('Files:');
         var files = response.result.files;
         if (files && files.length > 0) {
@@ -116,9 +116,25 @@ function newFile() {
 }
 
 function updateFile() {
+    var fileId = fileIdTextBox.value;
+    if (!fileId) {
+        alert('FileId not provided.')
+        return;
+    }
     updateDriveFile(
-        '1mxLtBcC-75Rivdeqrt0WcEWpr50FHiGB',
+        fileId,
         'application/json',
         btoa('{Updated one more time!}')
     )
+}
+
+function readFile() {
+    var fileId = fileIdTextBox.value;
+    if (!fileId) {
+        alert('FileId not provided.')
+        return;
+    }
+    downloadDriveFile(fileId, (stringData) => {
+        contentTextBox.value = stringData;
+    });
 }

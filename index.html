@@ -16,27 +16,34 @@ limitations under the License.
 <!-- [START drive_quickstart] -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Drive API Quickstart</title>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <p>Drive API Quickstart</p>
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
-    <button id="button_new_file" onclick="newFile()">New file</button>
+<head>
+  <title>Drive API Quickstart</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <p>Drive API Quickstart</p>
+
+  <!--Add buttons to initiate auth sequence and sign out-->
+  <button id="authorize_button" style="display: none;">Authorize</button>
+  <button id="signout_button" style="display: none;">Sign Out</button>
+  <button id="button_new_file" onclick="newFile()">New file</button>
+  <div>
+    <input type="text" id="textbox_file_id" placeholder="File id"></input>
+    <br/>
+    <textarea id="textbox_content"></textarea>
     <button id="button_update_file" onclick="updateFile()">Update file</button>
+    <button id="button_read_file" onclick="readFile()">Read file</button>
+  </div>
 
-    <pre id="content"></pre>
+  <pre id="content"></pre>
 
-    <script src="index.js"></script>
-    <script src="files.js"></script>
+  <script src="index.js"></script>
+  <script src="files.js"></script>
 
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-  </body>
+  <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
+</body>
+
 </html>
